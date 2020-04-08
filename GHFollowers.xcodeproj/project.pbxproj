@@ -62,13 +62,13 @@
 			children = (
 				CF11F09424378682000A87C0 /* AppDelegate.swift */,
 				CF11F09624378682000A87C0 /* SceneDelegate.swift */,
-				CFBBF70E243CC7230052FD73 /* GFButton.swift */,
 				CFEA50462439177000C567BF /* SearchVC.swift */,
 				CFEA5048243917C700C567BF /* FavoritesListVC.swift */,
+				CFBBF70E243CC7230052FD73 /* GFButton.swift */,
+				CFBBF710243CD68D0052FD73 /* GFTextField.swift */,
 				CF11F09D24378684000A87C0 /* Assets.xcassets */,
 				CF11F09F24378684000A87C0 /* LaunchScreen.storyboard */,
 				CF11F0A224378684000A87C0 /* Info.plist */,
-				CFBBF710243CD68D0052FD73 /* GFTextField.swift */,
 			);
 			path = GHFollowers;
 			sourceTree = "<group>";
