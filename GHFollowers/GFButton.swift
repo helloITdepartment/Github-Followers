@@ -19,7 +19,7 @@ class GFButton: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
     
-    init(withBackgroundColor backgronudColor: UIColor, title: String) {
+    init(withBackgroundColor backgroundColor: UIColor, title: String) {
         super.init(frame: .zero)
         self.backgroundColor = backgroundColor
         self.setTitle(title, for: .normal)
