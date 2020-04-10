@@ -14,6 +14,10 @@ class SearchVC: UIViewController {
     let usernameTextField = GFTextField()
     let searchButton = GFButton(withBackgroundColor: .systemGreen, title: "Find followers")
     
+    var isUsernameEntered: Bool {
+        !usernameTextField.text!.isEmpty
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -22,6 +26,7 @@ class SearchVC: UIViewController {
         setupLogoImageView()
         setupUsernameTextField()
         setupSearchButton()
+        createKeyboardDismissTapGestureRecognizer()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -29,6 +34,20 @@ class SearchVC: UIViewController {
         navigationController?.isNavigationBarHidden = true //done in viewWillAppear as opposed to viewDidLoad because the latter will only be called once, and this will be called every time the view shows back up on screen
     }
     
+    @objc func pushFollowerListVC() {
+        
+        guard isUsernameEntered else {
+            print("No usernamae entered") //TODO:- handle this error
+            return
+        }
+        
+        let followerListVC = FollowerListVC()
+        followerListVC.username = usernameTextField.text
+        followerListVC.title = usernameTextField.text
+        navigationController?.pushViewController(followerListVC, animated: true)
+    }
+    
+    //MARK:- UI
     private func setupLogoImageView() {
         view.addSubview(logoImageView)
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -46,6 +65,8 @@ class SearchVC: UIViewController {
     private func setupUsernameTextField() {
         view.addSubview(usernameTextField)
         
+        usernameTextField.delegate = self
+        
         NSLayoutConstraint.activate([
             usernameTextField.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 48),
             usernameTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
@@ -57,11 +78,28 @@ class SearchVC: UIViewController {
     private func setupSearchButton() {
         view.addSubview(searchButton)
         
+        searchButton.addTarget(self, action: #selector(pushFollowerListVC), for: .touchUpInside)
+        
         NSLayoutConstraint.activate([
             searchButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50),
             searchButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
             searchButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
             searchButton.heightAnchor.constraint(equalToConstant: 50)
         ])
+    }
+    
+    private func createKeyboardDismissTapGestureRecognizer() {
+        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing))
+        
+        view.addGestureRecognizer(tap)
+    }
+}
+
+//MARK:- Extensions
+extension SearchVC: UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        pushFollowerListVC()
+        return true
     }
 }
