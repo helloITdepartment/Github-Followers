@@ -39,11 +39,13 @@ class SearchVC: UIViewController {
         guard isUsernameEntered else {
             print("No usernamae entered") //TODO:- handle this error
             
-            let ac = UIAlertController(title: "No username entered", message: "We're gunna need a username to we know whose followers to get 😉", preferredStyle: .alert)
-            ac.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action) in
-                self.dismiss(animated: true)
-            }))
-            present(ac, animated: true)
+//            let ac = UIAlertController(title: "No username entered", message: "We're gunna need a username so we know whose followers to get 😉", preferredStyle: .alert)
+//            ac.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action) in
+//                self.dismiss(animated: true)
+//            }))
+//            present(ac, animated: true)
+            
+            presentGFAlertOnMainThread(title: "No username entered", message: "We're gunna need a username so we know whose followers to get 😉", buttonTitle: "Ok")
             
             return
         }
