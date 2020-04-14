@@ -31,7 +31,7 @@ class SearchVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.isNavigationBarHidden = true //done in viewWillAppear as opposed to viewDidLoad because the latter will only be called once, and this will be called every time the view shows back up on screen
+        navigationController?.setNavigationBarHidden(true, animated: true) //done in viewWillAppear as opposed to viewDidLoad because the latter will only be called once, and this will be called every time the view shows back up on screen
     }
     
     @objc func pushFollowerListVC() {
