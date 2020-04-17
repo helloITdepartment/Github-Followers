@@ -11,7 +11,7 @@ import Foundation
 class NetworkManager {
     
     static let shared = NetworkManager()
-    let baseURLString = "https://api.github.com/users/"
+    private let baseURLString = "https://api.github.com/users/"
     
     //We make the init private so that no one outside of this class can make a NetworkManager, ensuring that the only one that will ever exist is the `shared` one we just created
     private init() {}
@@ -29,11 +29,21 @@ class NetworkManager {
             
             //if the error does not come back nil
             if let _ = error {
-                completed(nil, "Unablle to handle your request. Please check your internet connection.")
+                completed(nil, "Unable to handle your request. Please check your internet connection.")
             }
             
-            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+            guard let response = response as? HTTPURLResponse else{
                 //TODO:- check for, and handle, specific error codes
+                completed(nil, "Invalid response from the server. Please try again.")
+                return
+            }
+            
+            if response.statusCode != 200 {
+                print(response.statusCode)
+                if(response.statusCode == 404) {
+                    completed(nil, "A 404 error was returned, which usually means that the user does not exists.")
+                    return
+                }
                 completed(nil, "Invalid response from the server. Please try again.")
                 return
             }
