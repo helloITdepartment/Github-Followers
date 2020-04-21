@@ -27,13 +27,6 @@ class FollowerListVC: UIViewController {
             case .failure(let error):
                 self.presentGFAlertOnMainThread(title: "Uh oh.", message: error.rawValue, buttonTitle: "Got it.")
             }
-            
-//            guard let followers = followers else {
-//                self.presentGFAlertOnMainThread(title: "Uh oh.", message: errorMessage!, buttonTitle: "Got it.")
-//                return
-//            }
-//
-            
         }
     }
     
