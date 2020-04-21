@@ -14,6 +14,8 @@
 		CF15C6A02445E8F40000352D /* Follower.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF15C69F2445E8F40000352D /* Follower.swift */; };
 		CF15C6A22445EB160000352D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF15C6A12445EB160000352D /* User.swift */; };
 		CF15C6A52448B0F20000352D /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF15C6A42448B0F20000352D /* NetworkManager.swift */; };
+		CF53EC96244F1DF100894048 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF53EC95244F1DF100894048 /* Constants.swift */; };
+		CF53EC98244F1E0500894048 /* GFError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF53EC97244F1E0500894048 /* GFError.swift */; };
 		CFBBF70F243CC7230052FD73 /* GFButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBBF70E243CC7230052FD73 /* GFButton.swift */; };
 		CFBBF711243CD68D0052FD73 /* GFTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBBF710243CD68D0052FD73 /* GFTextField.swift */; };
 		CFD6B7382444E3D20083F0DD /* GFTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD6B7372444E3D20083F0DD /* GFTitleLabel.swift */; };
@@ -35,6 +37,8 @@
 		CF15C69F2445E8F40000352D /* Follower.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Follower.swift; sourceTree = "<group>"; };
 		CF15C6A12445EB160000352D /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		CF15C6A42448B0F20000352D /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		CF53EC95244F1DF100894048 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		CF53EC97244F1E0500894048 /* GFError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFError.swift; sourceTree = "<group>"; };
 		CFBBF70E243CC7230052FD73 /* GFButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFButton.swift; sourceTree = "<group>"; };
 		CFBBF710243CD68D0052FD73 /* GFTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFTextField.swift; sourceTree = "<group>"; };
 		CFD6B7372444E3D20083F0DD /* GFTitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFTitleLabel.swift; sourceTree = "<group>"; };
@@ -76,6 +80,7 @@
 		CF11F09324378682000A87C0 /* GHFollowers */ = {
 			isa = PBXGroup;
 			children = (
+				CF53EC94244F1DD900894048 /* Utilities */,
 				CF15C6A32448AC920000352D /* Managers */,
 				CF15C69E2445E8BA0000352D /* View Controllers */,
 				CF15C69D2445E8A10000352D /* Models */,
@@ -85,7 +90,6 @@
 				CF11F09D24378684000A87C0 /* Assets.xcassets */,
 				CF11F09F24378684000A87C0 /* LaunchScreen.storyboard */,
 				CF11F0A224378684000A87C0 /* Info.plist */,
-				CFDB52102444F4C50008B285 /* Extensions.swift */,
 			);
 			path = GHFollowers;
 			sourceTree = "<group>";
@@ -127,6 +131,16 @@
 				CF15C6A42448B0F20000352D /* NetworkManager.swift */,
 			);
 			path = Managers;
+			sourceTree = "<group>";
+		};
+		CF53EC94244F1DD900894048 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				CFDB52102444F4C50008B285 /* Extensions.swift */,
+				CF53EC95244F1DF100894048 /* Constants.swift */,
+				CF53EC97244F1E0500894048 /* GFError.swift */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -204,6 +218,7 @@
 				CFEA5049243917C700C567BF /* FavoritesListVC.swift in Sources */,
 				CFBBF70F243CC7230052FD73 /* GFButton.swift in Sources */,
 				CFEA50472439177000C567BF /* SearchVC.swift in Sources */,
+				CF53EC96244F1DF100894048 /* Constants.swift in Sources */,
 				CFDB520F2444EAC10008B285 /* GFAlertVC.swift in Sources */,
 				CFD6B73C2444E5F60083F0DD /* GFBodyLabel.swift in Sources */,
 				CFD6B7382444E3D20083F0DD /* GFTitleLabel.swift in Sources */,
@@ -213,6 +228,7 @@
 				CF11F09524378682000A87C0 /* AppDelegate.swift in Sources */,
 				CFDB52112444F4C50008B285 /* Extensions.swift in Sources */,
 				CF11F09724378682000A87C0 /* SceneDelegate.swift in Sources */,
+				CF53EC98244F1E0500894048 /* GFError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
