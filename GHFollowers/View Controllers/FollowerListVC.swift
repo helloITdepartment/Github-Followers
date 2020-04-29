@@ -10,8 +10,16 @@ import UIKit
 
 class FollowerListVC: UIViewController {
     
+    enum Section {
+        case main
+        //TODO:- change "main" to "mutual" and "nonmutual" to experiment with multiple sections
+    }
+    
     var username: String!
+    var followers: [Follower] = []
+    
     var collectionView: UICollectionView!
+    var dataSource: UICollectionViewDiffableDataSource<Section, Follower>!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,6 +27,8 @@ class FollowerListVC: UIViewController {
         configureViewController()
         configureCollectionView()
         getFollowers()
+        configureDiffableDataSource()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -34,8 +44,8 @@ class FollowerListVC: UIViewController {
         
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createNColumnFlowLayout(withNumberOfColumns: 3)) //TODO:- if there's a settings page, let the user decide how many columns (within a certain range) and also change the number of followers loaded per page based on the same value
         view.addSubview(collectionView)
-        collectionView.backgroundColor = .systemPink
-        collectionView.register(FollwerCell.self, forCellWithReuseIdentifier: FollwerCell.reuseID)
+        collectionView.backgroundColor = .systemBackground
+        collectionView.register(FollowerCell.self, forCellWithReuseIdentifier: FollowerCell.reuseID)
         
     }
     
@@ -44,8 +54,11 @@ class FollowerListVC: UIViewController {
         NetworkManager.shared.getFollowers(for: username, page: 1) { result in
             switch result {
             case .success(let followers):
-                print(followers.count)
+                
+                self.followers = followers
                 print(followers)
+                self.updateCollectionView(animated: true)
+                
             case .failure(let error):
                 self.presentGFAlertOnMainThread(title: "Uh oh.", message: error.rawValue, buttonTitle: "Got it.")
             }
@@ -60,7 +73,7 @@ class FollowerListVC: UIViewController {
         let minimumItemSpacing: CGFloat = 10
         let numberOfItemSpacings: CGFloat = CGFloat(n-1)
         let availableWidth = width - (padding * 2) - (minimumItemSpacing * numberOfItemSpacings)
-        let itemWidth = availableWidth / 3
+        let itemWidth = availableWidth / CGFloat(n)
         
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.sectionInset = UIEdgeInsets(top: padding, left: padding, bottom: padding, right: padding)
@@ -68,5 +81,22 @@ class FollowerListVC: UIViewController {
         
         return flowLayout
         
+    }
+    
+    private func configureDiffableDataSource() {
+        dataSource = UICollectionViewDiffableDataSource<Section, Follower>(collectionView: collectionView, cellProvider: { (collectionView, indexPath, follower) -> UICollectionViewCell? in
+           
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FollowerCell.reuseID, for: indexPath) as! FollowerCell
+            cell.set(follower: follower)
+            
+            return cell
+        })
+    }
+    
+    func updateCollectionView(animated: Bool) {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Follower>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(followers)
+        dataSource.apply(snapshot, animatingDifferences: animated)
     }
 }
