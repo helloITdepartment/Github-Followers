@@ -27,6 +27,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         configureNavBar()
     }
 
+    func configureTabbar() -> UITabBarController {
+        let tabbar = UITabBarController()
+        UITabBar.appearance().tintColor = .systemGreen
+        
+        tabbar.viewControllers = [configureSearchNC(), configureFavoritesListNC()]
+        
+        return tabbar
+    }
+    
     func configureSearchNC() -> UINavigationController {
         
         let searchVC = SearchVC()
@@ -43,15 +52,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         favoritesListVC.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 1)
         
         return UINavigationController(rootViewController: favoritesListVC)
-    }
-    
-    func configureTabbar() -> UITabBarController {
-        let tabbar = UITabBarController()
-        UITabBar.appearance().tintColor = .systemGreen
-        
-        tabbar.viewControllers = [configureSearchNC(), configureFavoritesListNC()]
-        
-        return tabbar
     }
     
     func configureNavBar() {

@@ -26,6 +26,8 @@ class NetworkManager {
             return
         }
         
+//        print(url)
+        
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
             
             //if the error does not come back nil
