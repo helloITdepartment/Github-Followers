@@ -1,5 +1,5 @@
 //
-//  FollwerCell.swift
+//  FollowerCell.swift
 //  GHFollowers
 //
 //  Created by Jacques Benzakein on 4/21/20.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FollwerCell: UICollectionViewCell {
+class FollowerCell: UICollectionViewCell {
     
     static let reuseID = "FollowerCell"
     let padding: CGFloat = 8
@@ -20,7 +20,7 @@ class FollwerCell: UICollectionViewCell {
         super.init(frame: frame)
         
         configureAvatarImageView()
-        configureAvatarImageView()
+        configureUsernameLabel()
     }
     
     func set(follower: Follower) {
