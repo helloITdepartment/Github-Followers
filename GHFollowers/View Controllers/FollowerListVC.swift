@@ -51,9 +51,9 @@ class FollowerListVC: UIViewController {
     
     private func getFollowers() {
         
-        NetworkManager.shared.getFollowers(for: username, page: 1) { [weak self] result in //this makes it so that the reference to `self` in this closure doesn't increase self's reference count. Why that's something we're concerend about in this particular case it something I'm still working on nuderstanding
+        NetworkManager.shared.getFollowers(for: username, page: 1) { [weak self] result in //this makes it so that the reference to `self` in this closure doesn't increase self's reference count. Why that's something we're concerned about in this particular case it something I'm still working on understanding
             
-            //This created a new variable called self, and tries to set it to an unwrapped version of the weak one we made int he capture list. If it was nil, the program will abil out, but if not, the rest of the program will have a nonoptional version to use
+            //This created a new variable called self, and tries to set it to an unwrapped version of the weak one we made int he capture list. If it was nil, the program will bail out, but if not, the rest of the program will have a non-optional version to use
             
             guard let self = self else {
                 return
