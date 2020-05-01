@@ -42,7 +42,7 @@ class FollowerListVC: UIViewController {
     
     private func configureCollectionView() {
         
-        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createNColumnFlowLayout(withNumberOfColumns: 3)) //TODO:- if there's a settings page, let the user decide how many columns (within a certain range) and also change the number of followers loaded per page based on the same value
+        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createNColumnFlowLayout(withNumberOfColumns: 3)) //TODO:- if there's a settings page, let the user decide how many columns (within a certain range (1-5?)) and also change the number of followers loaded per page based on the same value
         view.addSubview(collectionView)
         collectionView.backgroundColor = .systemBackground
         collectionView.register(FollowerCell.self, forCellWithReuseIdentifier: FollowerCell.reuseID)
@@ -51,7 +51,14 @@ class FollowerListVC: UIViewController {
     
     private func getFollowers() {
         
-        NetworkManager.shared.getFollowers(for: username, page: 1) { result in
+        NetworkManager.shared.getFollowers(for: username, page: 1) { [weak self] result in //this makes it so that the reference to `self` in this closure doesn't increase self's reference count. Why that's something we're concerend about in this particular case it something I'm still working on nuderstanding
+            
+            //This created a new variable called self, and tries to set it to an unwrapped version of the weak one we made int he capture list. If it was nil, the program will abil out, but if not, the rest of the program will have a nonoptional version to use
+            
+            guard let self = self else {
+                return
+            }
+            
             switch result {
             case .success(let followers):
                 
