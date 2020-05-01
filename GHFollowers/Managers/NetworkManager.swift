@@ -6,12 +6,13 @@
 //  Copyright © 2020 Q Technologies. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 class NetworkManager {
     
     static let shared = NetworkManager()
     private let baseURLString = "https://api.github.com/users/"
+    let cache = NSCache<NSString, UIImage>()
     
     //We make the init private so that no one outside of this class can make a NetworkManager, ensuring that the only one that will ever exist is the `shared` one we just created
     private init() {}

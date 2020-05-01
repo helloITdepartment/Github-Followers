@@ -11,6 +11,7 @@ import UIKit
 class GFAvatarImageView: UIImageView {
     
     let placeholderImage = UIImage(named: "avatar-placeholder")!
+    let cache = NetworkManager.shared.cache
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -32,6 +33,12 @@ class GFAvatarImageView: UIImageView {
     
     func setImage(fromUrl urlString: String) {
         
+        let cacheKey = NSString(string: urlString)
+        if let image = cache.object(forKey: cacheKey) {
+            self.image = image
+            return
+        }
+        
         print("loading \(Int.random(in: 0...10000000))")
         
         guard let url = URL(string: urlString) else { return }
@@ -46,6 +53,7 @@ class GFAvatarImageView: UIImageView {
             
             guard let image = UIImage(data: data) else { return }
             
+            self.cache.setObject(image, forKey: cacheKey)
             DispatchQueue.main.async {
                 self.image = image
             }
