@@ -17,6 +17,8 @@ class FollowerListVC: UIViewController {
     
     var username: String!
     var followers: [Follower] = []
+    var hasMoreFollowers = true
+    var page = 1
     
     var collectionView: UICollectionView!
     var dataSource: UICollectionViewDiffableDataSource<Section, Follower>!
@@ -26,7 +28,7 @@ class FollowerListVC: UIViewController {
         
         configureViewController()
         configureCollectionView()
-        getFollowers()
+        getFollowers(username: username, page: page)
         configureDiffableDataSource()
         
     }
@@ -42,19 +44,19 @@ class FollowerListVC: UIViewController {
     
     private func configureCollectionView() {
         
-        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createNColumnFlowLayout(withNumberOfColumns: 3)) //TODO:- if there's a settings page, let the user decide how many columns (within a certain range (1-5?)) and also change the number of followers loaded per page based on the same value
+        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createNColumnFlowLayout(withNumberOfColumns: Constants.columnsInFollowerListCV)) //TODO:- if there's a settings page, let the user decide how many columns (within a certain range (1-5?)) and also change the number of followers loaded per page based on the same value
         view.addSubview(collectionView)
+        collectionView.delegate = self
         collectionView.backgroundColor = .systemBackground
         collectionView.register(FollowerCell.self, forCellWithReuseIdentifier: FollowerCell.reuseID)
         
     }
     
-    private func getFollowers() {
+    private func getFollowers(username: String, page: Int) {
         
-        NetworkManager.shared.getFollowers(for: username, page: 1) { [weak self] result in //this makes it so that the reference to `self` in this closure doesn't increase self's reference count. Why that's something we're concerned about in this particular case it something I'm still working on understanding
+        NetworkManager.shared.getFollowers(for: username, page: page) { [weak self] result in //this makes it so that the reference to `self` in this closure doesn't increase self's reference count. Why that's something we're concerned about in this particular case it something I'm still working on understanding
             
             //This created a new variable called self, and tries to set it to an unwrapped version of the weak one we made int he capture list. If it was nil, the program will bail out, but if not, the rest of the program will have a non-optional version to use
-            
             guard let self = self else {
                 return
             }
@@ -62,7 +64,8 @@ class FollowerListVC: UIViewController {
             switch result {
             case .success(let followers):
                 
-                self.followers = followers
+                self.hasMoreFollowers = !(followers.count < Constants.followersToPull)
+                self.followers += followers
                 print(followers)
                 self.updateCollectionView(animated: true)
                 
@@ -105,5 +108,19 @@ class FollowerListVC: UIViewController {
         snapshot.appendSections([.main])
         snapshot.appendItems(followers)
         dataSource.apply(snapshot, animatingDifferences: animated)
+    }
+}
+
+extension FollowerListVC: UICollectionViewDelegate {
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        let distanceScrolled = scrollView.contentOffset.y
+        let totalScrollviewHeight = scrollView.contentSize.height
+        let screenHeight = scrollView.frame.size.height
+        
+        if hasMoreFollowers && distanceScrolled >= totalScrollviewHeight - screenHeight {
+            page += 1
+            getFollowers(username: username, page: page)
+        }
     }
 }

@@ -19,7 +19,7 @@ class NetworkManager {
     
     func getFollowers(for username: String, page: Int, completed: @escaping (Result<[Follower], GFError>) -> Void) {
         
-        let endpointString = baseURLString + "\(username)/followers?per_page=99&page=\(page)" //went with 99 followers per page since the followerListVC will have them in rows of 3, and this way you won't occasionally have an extra one dangling at the bottom by himself
+        let endpointString = baseURLString + "\(username)/followers?per_page=\(Constants.followersToPull)&page=\(page)" //went with 99 followers per page since the followerListVC will have them in rows of 3, and this way you won't occasionally have an extra one dangling at the bottom by himself
         
         guard let url = URL(string: endpointString) else {
             completed(.failure(.invalidUsername))
