@@ -9,7 +9,7 @@
 import Foundation
 
 struct Constants {
-    static var columnsInFollowerListCV = 4
+    static var columnsInFollowerListCV = 3
     static var followersToPull: Int {
         print((100/columnsInFollowerListCV)*columnsInFollowerListCV)
         return (100/columnsInFollowerListCV)*columnsInFollowerListCV
