@@ -17,6 +17,7 @@ class FollowerListVC: UIViewController {
     
     var username: String!
     var followers: [Follower] = []
+    var filteredFollowers: [Follower] = []
     var hasMoreFollowers = true
     var page = 1
     
@@ -28,6 +29,7 @@ class FollowerListVC: UIViewController {
         super.viewDidLoad()
         
         configureViewController()
+        configureSearchController()
         configureCollectionView()
         getFollowers(username: username, page: page)
         configureDiffableDataSource()
@@ -42,6 +44,14 @@ class FollowerListVC: UIViewController {
     private func configureViewController() {
         view.backgroundColor = .systemBackground
         navigationController?.navigationBar.prefersLargeTitles = true
+    }
+    
+    private func configureSearchController() {
+        let searchController = UISearchController()
+        searchController.searchResultsUpdater = self
+        searchController.searchBar.delegate = self
+        searchController.searchBar.placeholder = "Search"
+        navigationItem.searchController = searchController
     }
     
     private func configureCollectionView() {
@@ -88,8 +98,7 @@ class FollowerListVC: UIViewController {
                     }
                 }
                 
-                print(followers)
-                self.updateCollectionView(animated: true)
+                self.updateCollectionView(with: self.followers, animated: true)
                 
             case .failure(let error):
                 self.presentGFAlertOnMainThread(title: "Uh oh.", message: error.rawValue, buttonTitle: "Got it.")
@@ -115,11 +124,15 @@ class FollowerListVC: UIViewController {
         
     }
     
-    func updateCollectionView(animated: Bool) {
+    func updateCollectionView(with followers: [Follower], animated: Bool) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Follower>()
         snapshot.appendSections([.main])
         snapshot.appendItems(followers)
-        dataSource.apply(snapshot, animatingDifferences: animated)
+        
+        DispatchQueue.main.async {
+            self.dataSource.apply(snapshot, animatingDifferences: animated)
+        }
+        
     }
 }
 
@@ -134,5 +147,26 @@ extension FollowerListVC: UICollectionViewDelegate {
             page += 1
             getFollowers(username: username, page: page)
         }
+    }
+    
+}
+
+extension FollowerListVC: UISearchResultsUpdating, UISearchBarDelegate {
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        
+        guard let filterText = searchController.searchBar.text, !filterText.isEmpty else {
+            return
+        }
+        
+        filteredFollowers = followers.filter({ follower -> Bool in
+            follower.login.lowercased().contains(filterText.lowercased())
+        })
+        
+        updateCollectionView(with: filteredFollowers, animated: true)
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        updateCollectionView(with: followers, animated: true)
     }
 }

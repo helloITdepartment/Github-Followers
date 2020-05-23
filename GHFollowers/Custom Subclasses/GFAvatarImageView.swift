@@ -38,8 +38,6 @@ class GFAvatarImageView: UIImageView {
             return
         }
         
-        print("loading \(Int.random(in: 0...10000000))")
-        
         guard let url = URL(string: urlString) else { return }
         
         let task = URLSession.shared.dataTask(with: url) { [weak self] (data, response, error) in

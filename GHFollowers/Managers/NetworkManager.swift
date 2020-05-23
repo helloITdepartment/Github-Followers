@@ -27,8 +27,6 @@ class NetworkManager {
             return
         }
         
-//        print(url)
-        
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
             
             //if the error does not come back nil
@@ -45,7 +43,6 @@ class NetworkManager {
             }
             
             if response.statusCode != 200 {
-                print(response.statusCode)
                 if(response.statusCode == 404) {
                     completed(.failure(.fourOhFour))
 //                    completed(nil, "A 404 error was returned, which usually means that the user does not exists.")
