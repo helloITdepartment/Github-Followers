@@ -73,4 +73,62 @@ class NetworkManager {
         
         task.resume()
     }
+
+    func getUser(for username: String, completed: @escaping (Result<User, GFError>) -> Void) {
+            
+            let endpointString = baseURLString + "\(username)"
+            
+            guard let url = URL(string: endpointString) else {
+                completed(.failure(.invalidUsername))
+    //            completed(nil, "The username produced an invalid URL. Please try again later.")
+                return
+            }
+            
+            let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+                
+                //if the error does not come back nil
+                if let _ = error {
+                    completed(.failure(.unableToComplete))
+    //                completed(nil, "Unable to handle your request. Please check your internet connection.")
+                }
+                
+                guard let response = response as? HTTPURLResponse else{
+                    //TODO:- check for, and handle, specific error codes
+                    completed(.failure(.invalidResponse))
+    //                completed(nil, "Invalid response from the server. Please try again.")
+                    return
+                }
+                
+                if response.statusCode != 200 {
+                    if(response.statusCode == 404) {
+                        completed(.failure(.fourOhFour))
+    //                    completed(nil, "A 404 error was returned, which usually means that the user does not exists.")
+                        return
+                    }
+                    completed(.failure(.invalidResponse))
+    //                completed(nil, "Invalid response from the server. Please try again.")
+                    return
+                }
+                
+                guard let data = data else {
+                    completed(.failure(.invalidData))
+    //                completed(nil, "The data returned from the server was invalid. Please try again")
+                    return
+                }
+                
+                do{
+                    let decoder = JSONDecoder()
+                    decoder.keyDecodingStrategy = .convertFromSnakeCase
+                    let user = try decoder.decode(User.self, from: data)
+                    completed(.success(user))
+    //                completed(followers, nil)
+                } catch {
+                    completed(.failure(.invalidData))
+    //                completed(nil, "The data returned from the server was invalid. Please try again")
+                }
+            }
+            
+            task.resume()
+        }
+
 }
