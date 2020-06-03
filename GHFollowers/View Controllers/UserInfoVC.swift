@@ -10,6 +10,8 @@ import UIKit
 
 class UserInfoVC: UIViewController {
 
+    let headerView = UIView() //This is the view that the UserInfoHeaderVC's view will live inside of
+    
     var username: String!
     
     override func viewDidLoad() {
@@ -29,11 +31,35 @@ class UserInfoVC: UIViewController {
             switch result {
                 
             case .success(let user):
-                print(user)
+                DispatchQueue.main.async {
+                    self.connect(viewController: GFUserInfoHeaderVC(for: user), to: self.headerView)
+                }
             case .failure(let error):
                 self.presentGFAlertOnMainThread(title: "😬 Something went wrong", message: error.rawValue, buttonTitle: "Got it")
             }
         }
+        
+        configureHeaderView()
+    }
+    
+    func configureHeaderView() {
+        view.addSubview(headerView)
+                
+        headerView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            headerView.heightAnchor.constraint(equalToConstant: 180)
+        ])
+    }
+    
+    func connect(viewController: UIViewController, to view: UIView) {
+        addChild(viewController)
+        view.addSubview(viewController.view)
+        viewController.view.frame = view.bounds
+        
+        viewController.didMove(toParent: self)
     }
     
     @objc func dismissVC() {

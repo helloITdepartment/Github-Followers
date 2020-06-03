@@ -15,3 +15,7 @@ struct Constants {
         return (100/columnsInFollowerListCV)*columnsInFollowerListCV
     }
 }
+
+enum SFSymbols {
+    static let location = "mappin.and.ellipse"
+}
