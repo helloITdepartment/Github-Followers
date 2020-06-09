@@ -11,6 +11,11 @@ import UIKit
 class UserInfoVC: UIViewController {
 
     let headerView = UIView() //This is the view that the UserInfoHeaderVC's view will live inside of
+    let githubInfoView = UIView()
+    let followersInfoView = UIView()
+    
+    let layoutPadding: CGFloat = 20
+    let infoItemHeight: CGFloat = 140
     
     var username: String!
     
@@ -23,11 +28,23 @@ class UserInfoVC: UIViewController {
         view.backgroundColor = .systemBackground
         title = username
         
+        githubInfoView.backgroundColor = .systemPink
+        followersInfoView.backgroundColor = .systemTeal
+        
+        downloadUser()
+        
+        configureHeaderView()
+        configureGithubInfoView()
+        configureFollowerInfoView()
+    }
+    
+    func downloadUser() {
+        
         NetworkManager.shared.getUser(for: username) { [weak self] (result) in
             guard let self = self else {
                 return
             }
-
+            
             switch result {
                 
             case .success(let user):
@@ -39,7 +56,6 @@ class UserInfoVC: UIViewController {
             }
         }
         
-        configureHeaderView()
     }
     
     func configureHeaderView() {
@@ -47,11 +63,37 @@ class UserInfoVC: UIViewController {
                 
         headerView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: layoutPadding),
+            headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: layoutPadding),
+            headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: layoutPadding),
             headerView.heightAnchor.constraint(equalToConstant: 180)
         ])
+    }
+    
+    func configureGithubInfoView() {
+        view.addSubview(githubInfoView)
+        
+        githubInfoView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            githubInfoView.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: layoutPadding),
+            githubInfoView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: layoutPadding),
+            githubInfoView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -layoutPadding),
+            githubInfoView.heightAnchor.constraint(equalToConstant: infoItemHeight)
+        ])
+        
+    }
+    
+    func configureFollowerInfoView() {
+        view.addSubview(followersInfoView)
+        
+        followersInfoView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            followersInfoView.topAnchor.constraint(equalTo: githubInfoView.bottomAnchor, constant: layoutPadding),
+            followersInfoView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: layoutPadding),
+            followersInfoView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -layoutPadding),
+            followersInfoView.heightAnchor.constraint(equalToConstant: infoItemHeight)
+        ])
+        
     }
     
     func connect(viewController: UIViewController, to view: UIView) {
