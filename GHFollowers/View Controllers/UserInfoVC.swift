@@ -65,7 +65,7 @@ class UserInfoVC: UIViewController {
         NSLayoutConstraint.activate([
             headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: layoutPadding),
             headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: layoutPadding),
-            headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: layoutPadding),
+            headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -layoutPadding),
             headerView.heightAnchor.constraint(equalToConstant: 180)
         ])
     }
