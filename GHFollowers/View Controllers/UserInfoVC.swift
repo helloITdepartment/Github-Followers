@@ -51,6 +51,7 @@ class UserInfoVC: UIViewController {
                     self.connect(viewController: GFUserInfoHeaderVC(for: user), to: self.headerView)
                     self.connect(viewController: GFRepoItemVC(for: user), to: self.githubInfoView)
                     self.connect(viewController: GFFollowerItemVC(for: user), to: self.followersInfoView)
+                    self.userSinceLabel.text = "On Github since \(user.createdAt.convertToDisplayFormat())"
                 }
             case .failure(let error):
                 self.presentGFAlertOnMainThread(title: "😬 Something went wrong", message: error.rawValue, buttonTitle: "Got it")

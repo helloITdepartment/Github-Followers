@@ -72,6 +72,11 @@ extension String {
         return dateFormatter.date(from: self)
     }
     
+    func convertToDisplayFormat() -> String {
+        guard let date = self.toDate() else { return "Date unavailable" }
+        return date.asMonthYearString()
+    }
+    
 }
 
 extension Date {
