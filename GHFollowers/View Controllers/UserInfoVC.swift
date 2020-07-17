@@ -13,6 +13,7 @@ class UserInfoVC: UIViewController {
     let headerView = UIView() //This is the view that the UserInfoHeaderVC's view will live inside of
     let githubInfoView = UIView()
     let followersInfoView = UIView()
+    let userSinceLabel = GFBodyLabel(textAlignment: .center)
     
     let layoutPadding: CGFloat = 20
     let infoItemHeight: CGFloat = 140
@@ -33,6 +34,7 @@ class UserInfoVC: UIViewController {
         configureHeaderView()
         configureGithubInfoView()
         configureFollowerInfoView()
+        configureUserSinceLabel()
     }
     
     func downloadUser() {
@@ -93,6 +95,17 @@ class UserInfoVC: UIViewController {
             followersInfoView.heightAnchor.constraint(equalToConstant: infoItemHeight)
         ])
         
+    }
+    
+    func configureUserSinceLabel() {
+        view.addSubview(userSinceLabel)
+        
+        NSLayoutConstraint.activate([
+            userSinceLabel.topAnchor.constraint(equalTo: followersInfoView.bottomAnchor, constant: layoutPadding),
+            userSinceLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: layoutPadding),
+            userSinceLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -layoutPadding),
+            userSinceLabel.heightAnchor.constraint(equalToConstant: 18)
+        ])
     }
     
     func connect(viewController: UIViewController, to view: UIView) {
