@@ -28,9 +28,6 @@ class UserInfoVC: UIViewController {
         view.backgroundColor = .systemBackground
         title = username
         
-        githubInfoView.backgroundColor = .systemPink
-        followersInfoView.backgroundColor = .systemTeal
-        
         downloadUser()
         
         configureHeaderView()
@@ -50,6 +47,8 @@ class UserInfoVC: UIViewController {
             case .success(let user):
                 DispatchQueue.main.async {
                     self.connect(viewController: GFUserInfoHeaderVC(for: user), to: self.headerView)
+                    self.connect(viewController: GFRepoItemVC(for: user), to: self.githubInfoView)
+                    self.connect(viewController: GFFollowerItemVC(for: user), to: self.followersInfoView)
                 }
             case .failure(let error):
                 self.presentGFAlertOnMainThread(title: "😬 Something went wrong", message: error.rawValue, buttonTitle: "Got it")

@@ -15,8 +15,19 @@ class GFItemInfoVC: UIViewController {
     let rightItemInfoView = GFItemInfoView()
     let button = GFButton()
     
+    var user: User!
+    
     let padding: CGFloat = 20
 
+    init(for user: User) {
+        super.init(nibName: nil, bundle: nil)
+        self.user = user
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
