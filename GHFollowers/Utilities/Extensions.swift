@@ -73,3 +73,14 @@ extension String {
     }
     
 }
+
+extension Date {
+    
+    func asMonthYearString() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMM yyyy"
+        
+        return dateFormatter.string(from: self)
+    }
+    
+}
