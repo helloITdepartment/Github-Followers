@@ -8,6 +8,11 @@
 
 import UIKit
 
+protocol UserInfoVCDelegate: class {
+    func didTapGithubProfile(for user: User)
+    func didTapGetFollowers(for user: User)
+}
+
 class UserInfoVC: UIViewController {
 
     let headerView = UIView() //This is the view that the UserInfoHeaderVC's view will live inside of
@@ -19,6 +24,8 @@ class UserInfoVC: UIViewController {
     let infoItemHeight: CGFloat = 140
     
     var username: String!
+    
+    weak var delegate: FollowerListVCDelegate!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,10 +55,7 @@ class UserInfoVC: UIViewController {
                 
             case .success(let user):
                 DispatchQueue.main.async {
-                    self.connect(viewController: GFUserInfoHeaderVC(for: user), to: self.headerView)
-                    self.connect(viewController: GFRepoItemVC(for: user), to: self.githubInfoView)
-                    self.connect(viewController: GFFollowerItemVC(for: user), to: self.followersInfoView)
-                    self.userSinceLabel.text = "On Github since \(user.createdAt.convertToDisplayFormat())"
+                    self.initializeUIElements(for: user)
                 }
             case .failure(let error):
                 self.presentGFAlertOnMainThread(title: "😬 Something went wrong", message: error.rawValue, buttonTitle: "Got it")
@@ -60,7 +64,22 @@ class UserInfoVC: UIViewController {
         
     }
     
-    func configureHeaderView() {
+    private func initializeUIElements(for user: User) {
+        
+        self.connect(viewController: GFUserInfoHeaderVC(for: user), to: self.headerView)
+        
+        let repoItemVC = GFRepoItemVC(for: user)
+        repoItemVC.delegate = self
+        self.connect(viewController: repoItemVC, to: self.githubInfoView)
+        
+        let followerItemVC = GFFollowerItemVC(for: user)
+        followerItemVC.delegate = self
+        self.connect(viewController: followerItemVC, to: self.followersInfoView)
+        
+        self.userSinceLabel.text = "On Github since \(user.createdAt.convertToDisplayFormat())"
+    }
+    
+    private func configureHeaderView() {
         view.addSubview(headerView)
                 
         headerView.translatesAutoresizingMaskIntoConstraints = false
@@ -72,7 +91,7 @@ class UserInfoVC: UIViewController {
         ])
     }
     
-    func configureGithubInfoView() {
+    private func configureGithubInfoView() {
         view.addSubview(githubInfoView)
         
         githubInfoView.translatesAutoresizingMaskIntoConstraints = false
@@ -85,7 +104,7 @@ class UserInfoVC: UIViewController {
         
     }
     
-    func configureFollowerInfoView() {
+    private func configureFollowerInfoView() {
         view.addSubview(followersInfoView)
         
         followersInfoView.translatesAutoresizingMaskIntoConstraints = false
@@ -98,7 +117,7 @@ class UserInfoVC: UIViewController {
         
     }
     
-    func configureUserSinceLabel() {
+    private func configureUserSinceLabel() {
         view.addSubview(userSinceLabel)
         
         NSLayoutConstraint.activate([
@@ -109,7 +128,7 @@ class UserInfoVC: UIViewController {
         ])
     }
     
-    func connect(viewController: UIViewController, to view: UIView) {
+    private func connect(viewController: UIViewController, to view: UIView) {
         addChild(viewController)
         view.addSubview(viewController.view)
         viewController.view.frame = view.bounds
@@ -121,4 +140,22 @@ class UserInfoVC: UIViewController {
         dismiss(animated: true)
     }
 
+}
+
+extension UserInfoVC: UserInfoVCDelegate {
+    
+    func didTapGithubProfile(for user: User) {
+        
+        guard let url = URL(string: user.htmlUrl) else {
+            presentGFAlertOnMainThread(title: "Invalid URL", message: "Looks like the URL for this user is invalid 😬. Send a screenshot and whatever info you can to our dev team.", buttonTitle: "Got it")
+            return
+        }
+        
+        presentSafariVC(with: url)
+    }
+    
+    func didTapGetFollowers(for user: User) {
+        delegate.didRequestFollowers(for: user.login)
+    }
+    
 }

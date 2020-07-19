@@ -17,6 +17,8 @@ class GFItemInfoVC: UIViewController {
     
     var user: User!
     
+    weak var delegate: UserInfoVCDelegate!
+    
     let padding: CGFloat = 20
 
     init(for user: User) {
@@ -68,6 +70,9 @@ class GFItemInfoVC: UIViewController {
             button.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -padding),
             button.heightAnchor.constraint(equalToConstant: 44)
         ])
+        
+        button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
     }
 
+    @objc func didTapButton() {/*empty implementation, meant to be overridden by subclasses*/}
 }
