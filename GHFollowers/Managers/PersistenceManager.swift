@@ -8,16 +8,22 @@
 
 import Foundation
 
+enum PersistenceActionType {
+    case add
+    case remove
+}
+
 enum PersistenceManager {
     
     enum Keys {
         static let favorites = "favorites"
     }
+    
     static private let defaults = UserDefaults.standard
     
     //A function called retrieveFollowers that takes in a parameter called completed. Completed is itself a function, this one one that takes in a Result type and returns nothing. If retrieveFollowers succeeds, it will call the `completed` function, whatever it may be, with an argument of .success, which is of type Result, which `completed` takes in
     //retrieveFollowers doesn't actually return anything
-    static func retrieveFollowers(completed: @escaping (Result<[Follower], GFError>) -> Void) {
+    static func retrieveFavorites(completed: @escaping (Result<[Follower], GFError>) -> Void) {
         
         guard let favoritesObject = defaults.object(forKey: Keys.favorites) else {
             //Ain't nothin there
@@ -42,7 +48,7 @@ enum PersistenceManager {
     }
     
     //This will take in an array of followers to save, return an error if something hits the fan while it's trying to save, or send back a nil error if nothing went wrong
-    static func saveFollowers(followers: [Follower]) -> GFError? {
+    static func saveFavorites(followers: [Follower]) -> GFError? {
         
         do {
             let encoder = JSONEncoder()
@@ -52,5 +58,36 @@ enum PersistenceManager {
         } catch {
             return .unableToUpdateFavorites
         }
+    }
+    
+    static func updateFavorites(with follower: Follower, actionType: PersistenceActionType, completed: @escaping (GFError?) -> Void) {
+        
+        retrieveFavorites { (result) in
+            switch result {
+            case .success(let favorites):
+                var mutableFavorites = favorites
+                
+                switch actionType {
+                case .add:
+                    //First make sure the follower isn't already in there
+                    guard !mutableFavorites.contains(follower) else {
+                        completed(.userAlreadyFavorited)
+                        return
+                    }
+                    
+                    mutableFavorites.append(follower)
+                case .remove:
+                    mutableFavorites.removeAll { (followerBeingInspected) -> Bool in
+                        followerBeingInspected.login == follower.login
+                    }
+                }
+                
+                completed(saveFavorites(followers: mutableFavorites))
+                
+            case .failure(let error):
+                completed(error)
+            }
+        }
+        
     }
 }
