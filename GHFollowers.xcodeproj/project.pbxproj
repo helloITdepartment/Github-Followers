@@ -23,6 +23,7 @@
 		CF5B7FF5247FD2AB00571ECC /* UserInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5B7FF4247FD2AB00571ECC /* UserInfoVC.swift */; };
 		CF5DF9E324A10D5800B5064F /* GFItemInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5DF9E224A10D5800B5064F /* GFItemInfoVC.swift */; };
 		CF7D0F8A248FB155009F2DEC /* GFItemInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7D0F89248FB155009F2DEC /* GFItemInfoView.swift */; };
+		CF886DF524C87DA60095E393 /* PersistenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF886DF424C87DA60095E393 /* PersistenceManager.swift */; };
 		CF89862B2487068B00A3BCA5 /* GFUserInfoHeaderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF89862A2487068B00A3BCA5 /* GFUserInfoHeaderVC.swift */; };
 		CF9E396524781B3000EBC7FF /* GFEmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9E396424781B3000EBC7FF /* GFEmptyStateView.swift */; };
 		CFA756DD2487DB5900750F2D /* GFSecondaryTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA756DC2487DB5900750F2D /* GFSecondaryTitleLabel.swift */; };
@@ -56,6 +57,7 @@
 		CF5B7FF4247FD2AB00571ECC /* UserInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoVC.swift; sourceTree = "<group>"; };
 		CF5DF9E224A10D5800B5064F /* GFItemInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFItemInfoVC.swift; sourceTree = "<group>"; };
 		CF7D0F89248FB155009F2DEC /* GFItemInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFItemInfoView.swift; sourceTree = "<group>"; };
+		CF886DF424C87DA60095E393 /* PersistenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceManager.swift; sourceTree = "<group>"; };
 		CF89862A2487068B00A3BCA5 /* GFUserInfoHeaderVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFUserInfoHeaderVC.swift; sourceTree = "<group>"; };
 		CF9E396424781B3000EBC7FF /* GFEmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFEmptyStateView.swift; sourceTree = "<group>"; };
 		CFA756DC2487DB5900750F2D /* GFSecondaryTitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFSecondaryTitleLabel.swift; sourceTree = "<group>"; };
@@ -159,6 +161,7 @@
 			isa = PBXGroup;
 			children = (
 				CF15C6A42448B0F20000352D /* NetworkManager.swift */,
+				CF886DF424C87DA60095E393 /* PersistenceManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -258,6 +261,7 @@
 				CF53EC9C244F336000894048 /* GFAvatarImageView.swift in Sources */,
 				CFD6B73C2444E5F60083F0DD /* GFBodyLabel.swift in Sources */,
 				CFD6B7382444E3D20083F0DD /* GFTitleLabel.swift in Sources */,
+				CF886DF524C87DA60095E393 /* PersistenceManager.swift in Sources */,
 				CF89862B2487068B00A3BCA5 /* GFUserInfoHeaderVC.swift in Sources */,
 				CF15C6A02445E8F40000352D /* Follower.swift in Sources */,
 				CFFCA0FE24409480000FBDD5 /* FollowerListVC.swift in Sources */,
