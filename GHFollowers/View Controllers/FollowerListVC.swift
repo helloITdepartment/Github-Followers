@@ -49,6 +49,9 @@ class FollowerListVC: UIViewController {
     private func configureViewController() {
         view.backgroundColor = .systemBackground
         navigationController?.navigationBar.prefersLargeTitles = true
+        
+        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped))
+        navigationItem.rightBarButtonItem = addButton
     }
     
     private func configureSearchController() {
@@ -138,6 +141,10 @@ class FollowerListVC: UIViewController {
             self.dataSource.apply(snapshot, animatingDifferences: animated)
         }
         
+    }
+    
+    @objc func addButtonTapped() {
+        print("Taptap")
     }
 }
 
