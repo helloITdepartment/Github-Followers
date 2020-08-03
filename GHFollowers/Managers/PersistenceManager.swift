@@ -48,11 +48,11 @@ enum PersistenceManager {
     }
     
     //This will take in an array of followers to save, return an error if something hits the fan while it's trying to save, or send back a nil error if nothing went wrong
-    static func saveFavorites(followers: [Follower]) -> GFError? {
+    static func saveFavorites(favorites: [Follower]) -> GFError? {
         
         do {
             let encoder = JSONEncoder()
-            let encodedFavorites = try encoder.encode(followers)
+            let encodedFavorites = try encoder.encode(favorites)
             defaults.setValue(encodedFavorites, forKey: Keys.favorites)
             return nil
         } catch {
@@ -82,7 +82,7 @@ enum PersistenceManager {
                     }
                 }
                 
-                completed(saveFavorites(followers: mutableFavorites))
+                completed(saveFavorites(favorites: mutableFavorites))
                 
             case .failure(let error):
                 completed(error)
