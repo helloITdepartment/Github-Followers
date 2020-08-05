@@ -60,7 +60,7 @@ enum PersistenceManager {
         }
     }
     
-    static func updateFavorites(with follower: Follower, actionType: PersistenceActionType, completed: @escaping (GFError?) -> Void) {
+    static func updateFavorites(_ actionType: PersistenceActionType, follower: Follower,  completed: @escaping (GFError?) -> Void) {
         
         retrieveFavorites { (result) in
             switch result {
